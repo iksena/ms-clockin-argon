@@ -5,7 +5,7 @@ env.config();
 export default {
   port: process.env.SERVICE_PORT || 3000,
   loggerOptions: {
-    name: process.env.SERVICE_NAME || 'ms-absence-argon',
+    name: process.env.SERVICE_NAME || 'ms-clockin-argon',
     level: process.env.LOG_LEVEL || 'debug',
   },
 };
