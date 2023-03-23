@@ -8,4 +8,16 @@ export default {
     name: process.env.SERVICE_NAME || 'ms-clockin-argon',
     level: process.env.LOG_LEVEL || 'debug',
   },
+  resources: {
+    db: {
+      collections: {
+        absences: process.env.DB_ABSENCES_COLLECTION,
+      },
+      instances: process.env.DB_INSTANCES,
+      options: process.env.DB_OPTIONS,
+      database: process.env.DB_NAME,
+      username: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+    },
+  },
 };
