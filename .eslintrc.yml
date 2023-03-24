@@ -1,11 +1,15 @@
 env:
   browser: true
   es2021: true
-extends: airbnb-base
+extends: 
+ - airbnb-base
+ - plugin:import/recommended
 overrides: []
 parserOptions:
   ecmaVersion: latest
   sourceType: module
+plugins:
+  - import
 rules: 
   semi:
     - error

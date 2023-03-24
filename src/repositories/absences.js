@@ -1,3 +1,4 @@
+import moment from 'moment';
 /**
  *  Represents the connection to absences collection in mongoDb
  */
@@ -15,6 +16,31 @@ class AbsencesRepository {
     Object.assign(this, opts);
   }
 
+  async get(filter) {
+    this.logger.info('[DB] Get user absences', filter);
+
+    const {
+      startDate,
+      endDate,
+      email,
+    } = filter;
+
+    const query = {
+      $match: {
+        ...email ?? { email },
+        ...(!!startDate || !!endDate) && {
+          createdAt: {
+            ...startDate ?? { $gte: moment(startDate).startOf('day').toDate() },
+            ...endDate ?? { $lte: moment(endDate).endOf('day').toDate() },
+          },
+        },
+      },
+    };
+    const sort = { $sort: { createdAt: -1 } };
+
+    return this.collection.aggregate([query, sort]).toArray();
+  }
+
   /**
    * Insert a user absence
    *
@@ -24,19 +50,7 @@ class AbsencesRepository {
   async save(payload) {
     this.logger.info('[DB] Insert user absence', payload);
 
-    const { phone } = payload;
-    const query = { phone };
-    const setter = {
-      $set: payload,
-    };
-    const options = {
-      upsert: true,
-      returnOriginal: false,
-    };
-
-    const { value: data } = this.collection.findOneAndUpdate(query, setter, options);
-
-    return data;
+    return this.collection.insertOne(payload);
   }
 }
 
