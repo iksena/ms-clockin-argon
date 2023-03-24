@@ -51,9 +51,6 @@ const start = async () => {
 
   await intialize(app);
   app.listen(port, () => logger.info(`Listening to port ${port}`));
-
-  process.on('SIGINT', await stop('SIGINT', app));
-  process.on('SIGTERM', await stop('SIGTERM', app));
 };
 
 start();

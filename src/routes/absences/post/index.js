@@ -6,7 +6,7 @@ import middlewares from '../../../middlewares/index.js';
 const router = Router();
 const { withAbsenceMiddleware } = middlewares;
 
-router.get(
+router.post(
   '/absences',
   withAbsenceMiddleware,
   postAbsence,

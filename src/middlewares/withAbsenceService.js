@@ -1,11 +1,22 @@
 import services from '../services/index.js';
+import repositories from '../repositories/index.js';
 
 const { AbsenceService } = services;
+const { AbsencesRepository } = repositories;
 
 const withAbsenceService = (req, res, next) => {
-  const { logger } = req.app.locals;
+  const { logger, mongo: { db }, config } = req.app.locals;
 
-  req.app.locals.absence = new AbsenceService({ logger });
+  const absenceRepository = new AbsencesRepository({
+    logger,
+    collection: db.collection(config.resources.db.collections.absences),
+    config,
+  });
+
+  req.app.locals.absence = new AbsenceService({
+    logger,
+    absenceRepository,
+  });
 
   return next();
 };

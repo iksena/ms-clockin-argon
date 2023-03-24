@@ -14,7 +14,7 @@ const _createConnectionString = (config) => {
 
   const encodedPassword = encodeURIComponent(password);
   const creds = `${username}:${encodedPassword}`;
-  const connectionString = `mongodb://${creds}@${instances}/${database}`;
+  const connectionString = `mongodb+srv://${creds}@${instances}/${database}`;
 
   return options ? `${connectionString}?${options}` : connectionString;
 };
@@ -27,12 +27,16 @@ const _createConnectionString = (config) => {
  * @returns {object} client
  */
 const connectMongoDb = async (mongodb, dbConfig, logger) => {
-  const { MongoClient } = mongodb;
+  const { MongoClient, ServerApiVersion } = mongodb;
   const connectionString = _createConnectionString(dbConfig);
 
-  logger.info('Connecting to database');
+  logger.info('Connecting to database', dbConfig.instances);
 
-  const client = await MongoClient.connect(connectionString, { useNewUrlParser: true });
+  const client = await MongoClient.connect(connectionString, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverApi: ServerApiVersion.v1,
+  });
 
   return {
     db: client.db(dbConfig.database),

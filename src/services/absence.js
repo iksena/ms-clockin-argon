@@ -6,6 +6,7 @@ class AbsenceService {
      *
      * @param {Object} args - class argument
      * @param {Object} args.logger - bunyan logger
+     * @param {Object} args.absenceRepository - absences repository
     */
   constructor(args) {
     Object.assign(this, args);
@@ -15,8 +16,8 @@ class AbsenceService {
    * Save absence to database
    * @param {Object} payload - absence payload
    */
-  saveAbsence(payload) {
-    this.logger.info(payload, 'Saving absence');
+  async saveAbsence(payload) {
+    await this.absenceRepository.save(payload);
   }
 }
 

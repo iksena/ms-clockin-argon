@@ -1,9 +1,8 @@
 const postAbsence = async (req, res, next) => {
-  const { events } = req.body;
   const { logger, absence } = req.app.locals;
 
   try {
-    await absence.saveAbsence(events);
+    await absence.saveAbsence(req.body);
 
     res.sendStatus(200);
   } catch (error) {
