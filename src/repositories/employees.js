@@ -16,7 +16,28 @@ class EmployeesRepository {
   }
 
   /**
-   * Insert an employee
+   * Find all employees
+   * @returns {Array<Object>} list of employees
+   */
+  async findAll() {
+    this.logger.info('[DB] Get all employees');
+
+    return this.collection.find({}).toArray();
+  }
+
+  /**
+   * Find an employee by email
+   * @param {String} email - employee email
+   * @returns {Object} employee object
+   */
+  async findOneByEmail(email) {
+    this.logger.info('[DB] Find an employee', { email });
+
+    return this.collection.findOne({ email });
+  }
+
+  /**
+   * Insert or update an employee
    *
    * @param {object} payload - user absence
    * @returns {promise<object>} employee of the user

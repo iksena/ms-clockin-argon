@@ -16,6 +16,11 @@ class AbsencesRepository {
     Object.assign(this, opts);
   }
 
+  /**
+   * Get absences by filter
+   * @param {Object} filter - absence filter
+   * @returns list of absencs
+   */
   async get(filter) {
     this.logger.info('[DB] Get user absences', filter);
 

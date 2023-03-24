@@ -12,6 +12,7 @@ export default {
     db: {
       collections: {
         absences: process.env.DB_ABSENCES_COLLECTION,
+        employees: process.env.DB_EMPLOYEES_COLLECTION,
       },
       instances: process.env.DB_INSTANCES,
       options: process.env.DB_OPTIONS,
