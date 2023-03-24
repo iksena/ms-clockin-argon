@@ -17,6 +17,8 @@ const employee = Joi.object({
   imageUri: Joi.string()
     .uri()
     .description('Image URI'),
+  password: Joi.string()
+    .description('password'),
 });
 
 const postEmployee = { body: employee };
