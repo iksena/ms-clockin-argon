@@ -19,6 +19,10 @@ class AbsenceService {
   async saveAbsence(payload) {
     await this.absenceRepository.save(payload);
   }
+
+  async getAbsences(filter) {
+    return this.absenceRepository.get(filter);
+  }
 }
 
 export default AbsenceService;

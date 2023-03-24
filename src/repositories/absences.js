@@ -27,11 +27,11 @@ class AbsencesRepository {
 
     const query = {
       $match: {
-        ...email ?? { email },
+        ...!!email && { email },
         ...(!!startDate || !!endDate) && {
           createdAt: {
-            ...startDate ?? { $gte: moment(startDate).startOf('day').toDate() },
-            ...endDate ?? { $lte: moment(endDate).endOf('day').toDate() },
+            ...!!startDate && { $gte: moment(startDate).startOf('day').toDate() },
+            ...!!endDate && { $lte: moment(endDate).endOf('day').toDate() },
           },
         },
       },
