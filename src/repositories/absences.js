@@ -34,7 +34,7 @@ class AbsencesRepository {
       $match: {
         ...!!email && { email },
         ...(!!startDate || !!endDate) && {
-          createdAt: {
+          time: {
             ...!!startDate && { $gte: moment(startDate).startOf('day').toDate() },
             ...!!endDate && { $lte: moment(endDate).endOf('day').toDate() },
           },
@@ -55,7 +55,10 @@ class AbsencesRepository {
   async save(payload) {
     this.logger.info('[DB] Insert user absence', payload);
 
-    return this.collection.insertOne(payload);
+    return this.collection.insertOne({
+      ...payload,
+      createdAt: new Date(),
+    });
   }
 }
 

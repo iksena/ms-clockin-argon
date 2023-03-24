@@ -49,6 +49,8 @@ class EmployeesRepository {
     const query = { email };
     const setter = {
       $set: payload,
+      $currentDate: { modifiedAt: true },
+      $setOnInsert: { createdAt: new Date() },
     };
     const options = {
       upsert: true,
