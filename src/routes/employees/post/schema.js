@@ -14,6 +14,9 @@ const employee = Joi.object({
   position: Joi.string()
     .max(100)
     .description('Job position'),
+  imageUri: Joi.string()
+    .uri()
+    .description('Image URI'),
 });
 
 const postEmployee = { body: employee };

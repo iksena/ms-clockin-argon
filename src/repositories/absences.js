@@ -22,8 +22,6 @@ class AbsencesRepository {
    * @returns list of absencs
    */
   async get(filter) {
-    this.logger.info('[DB] Get user absences', filter);
-
     const {
       startDate,
       endDate,
@@ -41,7 +39,8 @@ class AbsencesRepository {
         },
       },
     };
-    const sort = { $sort: { createdAt: -1 } };
+    const sort = { $sort: { time: -1 } };
+    this.logger.info('[DB] Get user absences', { query, sort });
 
     return this.collection.aggregate([query, sort]).toArray();
   }
@@ -57,6 +56,7 @@ class AbsencesRepository {
 
     return this.collection.insertOne({
       ...payload,
+      time: moment(payload.time).toDate(),
       createdAt: new Date(),
     });
   }

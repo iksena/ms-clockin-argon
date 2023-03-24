@@ -9,9 +9,11 @@ const absence = Joi.object({
     .description('Email'),
   time: Joi.date()
     .iso()
-    .description('Phone number'),
+    .required()
+    .description('Time'),
   status: Joi.valid(...Object.values(constants.ABSENCE_STATUS))
-    .description('status'),
+    .description('Status')
+    .required(),
 });
 
 const postAbsence = { body: absence };
