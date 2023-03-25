@@ -4,7 +4,7 @@ const postAbsence = async (req, res, next) => {
   try {
     const response = absence.saveAbsence(req.body);
 
-    res.json(response);
+    res.status(201).json(response);
   } catch (error) {
     logger.error(error, 'Something went wrong.');
 

@@ -57,9 +57,9 @@ class EmployeesRepository {
       returnOriginal: false,
     };
 
-    const { value: data } = this.collection.findOneAndUpdate(query, setter, options);
+    const { value } = await this.collection.findOneAndUpdate(query, setter, options);
 
-    return data;
+    return value;
   }
 }
 

@@ -28,7 +28,27 @@ class EmployeeService {
    * @returns {Object} employee object
    */
   async createEmployee(payload) {
+    const foundEmployee = await this.employeesRepository.findOneByEmail(payload.email);
+    if (foundEmployee.email === payload.email) {
+      throw new HttpErrors.Forbidden('Email is already used');
+    }
+
     return this.employeesRepository.saveOrUpdate(payload);
+  }
+
+  /**
+   * Edit an employee to DB
+   * @param {Object} payload - employee payload
+   * @returns {Object} employee object
+   */
+  async editEmployee(payload) {
+    const foundEmployee = await this.employeesRepository.findOneByEmail(payload.email);
+    if (foundEmployee === null) {
+      throw new HttpErrors.NotFound('User is not found');
+    }
+    const employee = await this.employeesRepository.saveOrUpdate(payload);
+
+    return employee;
   }
 
   /**
@@ -43,7 +63,9 @@ class EmployeeService {
       throw new HttpErrors.Unauthorized('Incorrect email or password');
     }
 
-    return true;
+    const { password: deletedPassword, ...sanitizedEmployee } = employee;
+
+    return sanitizedEmployee;
   }
 }
 

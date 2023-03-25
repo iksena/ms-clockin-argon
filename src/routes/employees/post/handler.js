@@ -4,7 +4,7 @@ const createEmployee = async (req, res, next) => {
   try {
     const response = await employee.createEmployee(req.body);
 
-    res.json(response);
+    res.status(201).json(response);
   } catch (error) {
     logger.error(error, 'Something went wrong.');
 
