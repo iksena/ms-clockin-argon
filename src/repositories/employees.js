@@ -54,7 +54,7 @@ class EmployeesRepository {
     };
     const options = {
       upsert: true,
-      returnOriginal: false,
+      returnDocument: 'after',
     };
 
     const { value } = await this.collection.findOneAndUpdate(query, setter, options);
