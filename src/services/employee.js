@@ -29,7 +29,7 @@ class EmployeeService {
    */
   async createEmployee(payload) {
     const foundEmployee = await this.employeesRepository.findOneByEmail(payload.email);
-    if (foundEmployee.email === payload.email) {
+    if (foundEmployee?.email === payload.email) {
       throw new HttpErrors.Forbidden('Email is already used');
     }
 
