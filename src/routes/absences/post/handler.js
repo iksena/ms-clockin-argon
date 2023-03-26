@@ -2,7 +2,7 @@ const postAbsence = async (req, res, next) => {
   const { logger, absence } = req.app.locals;
 
   try {
-    const response = absence.saveAbsence(req.body);
+    const response = await absence.saveAbsence(req.body);
 
     res.status(201).json(response);
   } catch (error) {

@@ -46,19 +46,42 @@ class AbsencesRepository {
   }
 
   /**
-   * Insert a user absence
+   * Find an absence by email and date
+   * @param {String} email - employee email
+   * @param {String} date - employee absence date
+   * @returns {Object} absence object
+   */
+  async findOne(email, date) {
+    this.logger.info('[DB] Find an absence', { email, date });
+
+    return this.collection.findOne({ email, date });
+  }
+
+  /**
+   * Insert or update an absence
    *
    * @param {object} payload - user absence
-   * @returns {promise<object>} absence of the user
+   * @returns {promise<object>} employee of the user
    */
-  async save(payload) {
-    this.logger.info('[DB] Insert user absence', payload);
+  async saveOrUpdate(payload) {
+    this.logger.info('[DB] Insert or update absence', payload);
 
-    return this.collection.insertOne({
-      ...payload,
-      time: moment(payload.time).toDate(),
-      createdAt: new Date(),
-    });
+    const { email, date } = payload;
+
+    const query = { email, date };
+    const setter = {
+      $set: payload,
+      $currentDate: { modifiedAt: true },
+      $setOnInsert: { createdAt: new Date() },
+    };
+    const options = {
+      upsert: true,
+      returnDocument: 'after',
+    };
+
+    const { value } = await this.collection.findOneAndUpdate(query, setter, options);
+
+    return value;
   }
 }
 
