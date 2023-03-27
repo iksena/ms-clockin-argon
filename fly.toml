@@ -1,7 +1,26 @@
-# fly.toml file generated for ms-clockin-argon on 2023-03-27T11:39:50+07:00
+# fly.toml file generated for ms-clockin-argon on 2023-03-27T12:20:40+07:00
 
 app = "ms-clockin-argon"
-primary_region = "sin"
+kill_signal = "SIGINT"
+kill_timeout = 5
+mounts = []
+primary_region = "syd"
+processes = []
 
-[env]
-  PORT = "8080"
+[[services]]
+  internal_port = 8080
+  processes = ["app"]
+  protocol = "tcp"
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
+
+  [[services.ports]]
+    force_https = true
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
