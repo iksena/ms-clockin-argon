@@ -17,7 +17,6 @@ const connectKafkaProducer = async (kafkaJs, logger, kafkaConfig) => {
     sasl: kafkaConfig.sasl,
     ssl: kafkaConfig.ssl,
   });
-  console.log(kafkaConfig);
   const producer = kafka.producer();
 
   logger.info('Connecting to kafka confluent producer');

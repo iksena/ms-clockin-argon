@@ -1,0 +1,7 @@
+# fly.toml file generated for ms-clockin-argon on 2023-03-27T11:39:50+07:00
+
+app = "ms-clockin-argon"
+primary_region = "sin"
+
+[env]
+  PORT = "8080"
