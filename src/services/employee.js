@@ -8,7 +8,9 @@ class EmployeeService {
      *
      * @param {Object} args - class argument
      * @param {Object} args.logger - bunyan logger
+     * @param {Object} args.config - app config
      * @param {Object} args.employeesRepository - employees repository
+     * @param {Object} args.kafkaProducer - kafkaProducer connector
     */
   constructor(args) {
     Object.assign(this, args);
@@ -33,7 +35,10 @@ class EmployeeService {
       throw new HttpErrors.Forbidden('Email is already used');
     }
 
-    return this.employeesRepository.saveOrUpdate(payload);
+    const employee = await this.employeesRepository.saveOrUpdate(payload);
+    await this.kafkaProducer.sendToEmployeeUpdate({ ...payload, eventType: 'CREATE' });
+
+    return employee;
   }
 
   /**
@@ -47,6 +52,8 @@ class EmployeeService {
       throw new HttpErrors.NotFound('User is not found');
     }
     const employee = await this.employeesRepository.saveOrUpdate(payload);
+
+    await this.kafkaProducer.sendToEmployeeUpdate({ ...payload, eventType: 'UPDATE' });
 
     return employee;
   }

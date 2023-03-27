@@ -5,7 +5,12 @@ const { EmployeeService } = services;
 const { EmployeesRepository } = repositories;
 
 const withEmployeeService = (req, res, next) => {
-  const { logger, mongo: { db }, config } = req.app.locals;
+  const {
+    logger,
+    mongo: { db },
+    config,
+    kafkaProducer,
+  } = req.app.locals;
 
   const employeesRepository = new EmployeesRepository({
     logger,
@@ -16,6 +21,8 @@ const withEmployeeService = (req, res, next) => {
   req.app.locals.employee = new EmployeeService({
     logger,
     employeesRepository,
+    config,
+    kafkaProducer,
   });
 
   return next();
